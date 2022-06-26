@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     if (argc != 2)
     {
         printUsage();
-        return;
+        return 0;
     }
 
     std::string target_pid_str(argv[1]);
@@ -28,6 +28,6 @@ int main(int argc, char *argv[])
     std::string injectee(argv[2]);
 
 
-
+    return 0;
 }
 

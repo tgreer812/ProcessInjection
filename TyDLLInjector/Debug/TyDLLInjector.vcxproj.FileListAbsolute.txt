@@ -1,1 +1,2 @@
 C:\Users\tgree\source\repos\TyDLLInjector\Debug\TyDLLInjector.exe
+C:\Users\tgree\source\repos\ProcessInjection\TyDLLInjector\Debug\TyDLLInjector.exe
