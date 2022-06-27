@@ -1,6 +1,8 @@
 /**/
 
 #include "stdafx.h"
+#include "TyStringHelper.h"
+#include "TyInjector.h"
 
 using namespace std;
 
@@ -27,6 +29,7 @@ int main(int argc, char *argv[])
 
     std::string injectee(argv[2]);
 
+    const wchar_t* injectere_wide = getWideCFromStdString(injectee);
 
     return 0;
 }
