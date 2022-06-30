@@ -6,50 +6,47 @@ DWORD getProcessHandleFromWideString(wchar_t* procName)
 {
 	DWORD flags = TH32CS_SNAPPROCESS;
 	HANDLE snapHandle = CreateToolhelp32Snapshot(flags, NULL);
-	//cout << snapHandle << " " << INVALID_HANDLE_VALUE << endl;
-	LPPROCESSENTRY32 curProcess = (LPPROCESSENTRY32)malloc(sizeof(PROCESSENTRY32));
-	curProcess->dwSize = sizeof(PROCESSENTRY32);
+	LPPROCESSENTRY32W curProcess = (LPPROCESSENTRY32W)malloc(sizeof(PROCESSENTRY32W));
 
+	if (!curProcess)
+	{
+		return 0;
+	}
 
+	curProcess->dwSize = sizeof(PROCESSENTRY32W);
 
 	bool found = false;
 	if (Process32First(snapHandle, curProcess))
 	{
 		if (wcscmp(curProcess->szExeFile, procName) == 0)
 		{
-			//wcout << curProcess->szExeFile << endl;
 			found = true;
 		}
 
 	}
-	//loop through running processes looking for csgo
+
+	//loop through running processes looking for procName
 	while (!found)
 	{
-		//
 		if (Process32Next(snapHandle, curProcess))
 		{
 			if (wcscmp(curProcess->szExeFile, procName) == 0)
 			{
-				//wcout << curProcess->szExeFile << endl;
 				found = true;
 			}
-
 		}
 		else if (GetLastError() == ERROR_NO_MORE_FILES)
 		{
-			cout << "Process not running!" << endl;
-			return PROCESS_NOT_OPEN;
+			return 0;
 		}
 		else
 		{
-			cout << "UNKOWN ERROR!" << endl;
-			return UNKNOWN_PROC_ACQ_ERROR;
+			return 0;
 		}
 	}
 
-	//retrieve handle to process
+	//retrieve handle to process with perms for thread creation and memory access
 	DWORD accessFlags = PROCESS_VM_OPERATION | PROCESS_VM_READ | PROCESS_VM_WRITE;
-	cout << "Returning process handle to csgo.exe" << endl;
 	return (DWORD)OpenProcess(accessFlags, FALSE, curProcess->th32ProcessID);
 }
 
@@ -89,7 +86,7 @@ DWORD getModuleHandle(HANDLE hProcess, string moduleName, HMODULE& retModule)
 	LPSTR lpFilename = (LPSTR)malloc(maxStringSize);
 
 	//loop through all of the modules loaded in the process
-	for (int i = 0; i < *(lpcbNeeded) / sizeof(HMODULE); i++)
+	for (unsigned int i = 0; i < *(lpcbNeeded) / sizeof(HMODULE); i++)
 	{
 		//get the ascii absolute path of the module
 
@@ -114,7 +111,7 @@ DWORD getModuleBaseAddress(HANDLE hProcess, HMODULE hMod, DWORD& baseAddress)
 {
 	LPMODULEINFO lpmodinfo = (LPMODULEINFO)malloc(sizeof(MODULEINFO));
 
-	if (GetModuleInformation(hProcess, hMod, lpmodinfo, sizeof(MODULEINFO)) == 0)
+	if (lpmodinfo == 0 || !GetModuleInformation(hProcess, hMod, lpmodinfo, sizeof(MODULEINFO)))
 	{
 		cout << "Module info unavailable!" << endl;
 		return MODULE_INFO_UNAVAILABLE;
