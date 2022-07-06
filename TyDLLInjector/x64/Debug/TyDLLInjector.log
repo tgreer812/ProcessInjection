@@ -1,0 +1,4 @@
+﻿  TyInjector.cpp
+C:\Users\tgree\source\repos\ProcessInjection\TyDLLInjector\TyInjector.cpp(44,5): warning C4312: 'type cast': conversion from 'DWORD' to 'HANDLE' of greater size
+C:\Users\tgree\source\repos\ProcessInjection\TyDLLInjector\TyInjector.cpp(96,5): warning C4312: 'type cast': conversion from 'DWORD' to 'HANDLE' of greater size
+  TyDLLInjector.vcxproj -> C:\Users\tgree\source\repos\ProcessInjection\TyDLLInjector\x64\Debug\TyDLLInjector.exe

@@ -13,15 +13,26 @@
 
 #include "TyMemoryHelper.h"
 
-TyInjector::TyInjector(string targetProcessName)
+TyInjector::TyInjector()
 {
-	TyInjector::targetProcessName = (wchar_t*)getWideCFromStdString(targetProcessName);
+	//TyInjector::targetProcessName = (wchar_t*)malloc(targetProcessName.length());
+	/*
+	std::wstring std_wide = std::wstring(targetProcessName.begin(), targetProcessName.end());
+	TyInjector::targetProcessName = (wchar_t*)calloc(1, std_wide.length());
+	wchar_t* temp = (wchar_t*)std_wide.c_str();
 
+	wcscpy_s(TyInjector::targetProcessName, (const wchar_t*)temp);
+	cout << "test" << endl;
+	*/
+
+	//Hard coding for demo
+	TyInjector::targetProcessName = (wchar_t*)L"explorer.exe";
 }
 
 void TyInjector::setTargetProcess(string targetProcessName)
 {
-	TyInjector::targetProcessName = (wchar_t*)getWideCFromStdString(targetProcessName);
+	return;
+	// getWideCFromStdString(targetProcessName, TyInjector::targetProcessName);
 }
 
 /*
@@ -44,13 +55,13 @@ bool TyInjector::injectDLL(wchar_t* dllName, HANDLE targetProcess)
 
 	//Allocate space for the name of the DLL to inject in the remote process
 	LPVOID buffer;
-	if (!(buffer = VirtualAllocEx(targetProcess, NULL, length * 2, MEM_COMMIT, PAGE_EXECUTE)))
+	if (!(buffer = VirtualAllocEx(targetProcess, NULL, (SIZE_T)length * 2, MEM_COMMIT, PAGE_READWRITE)))
 	{
 		return false;
 	}
 
 	//Write the name of the DLL to inject into the newly allocated buffer
-	if (!WriteProcessMemory(targetProcess, buffer, dllName, length * 2, NULL))
+	if (!WriteProcessMemory(targetProcess, buffer, dllName, (SIZE_T)length * 2, NULL))
 	{
 		return false;
 	}

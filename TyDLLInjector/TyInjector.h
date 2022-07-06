@@ -11,7 +11,9 @@ public:
 	wchar_t* targetProcessName;
 
 	// Constructors
-	TyInjector(string targetProcessName);
+	//Hard coding for demo
+	TyInjector();
+	//TyInjector(string targetProcessName);
 
 	// Methods
 	void setTargetProcess(string targetProcessName);

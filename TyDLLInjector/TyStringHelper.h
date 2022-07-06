@@ -1,4 +1,4 @@
 #pragma once
 
 
-const wchar_t* getWideCFromStdString(std::string str);
+void getWideCFromStdString(std::string str, wchar_t* out);

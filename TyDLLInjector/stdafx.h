@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <stdio.h>
 #include <tchar.h>
+#include <cstring>
 #include <iostream>
 #include <iomanip>
 #include <string>
