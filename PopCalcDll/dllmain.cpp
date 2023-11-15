@@ -13,7 +13,7 @@ extern "C" __declspec(dllexport) void PopCalc()
 	si.cb = sizeof(si);
 	ZeroMemory(&pi, sizeof(pi));
 
-
+	//herpedy derp
 	CreateProcess(
 		TEXT("C:\\Windows\\System32\\calc.exe"),
 		(LPWSTR)TEXT(""),
@@ -31,7 +31,10 @@ extern "C" __declspec(dllexport) void PopCalc()
 	CloseHandle(pi.hThread);
 }
 
-
+/**
+	This is DLL main
+	I leave such amazing comments
+*/
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
 	switch (ul_reason_for_call) {
